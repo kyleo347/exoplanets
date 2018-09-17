@@ -1,0 +1,19 @@
+.App {
+  text-align: center;
+}
+.App-header {
+  background-color: transparent;
+  position: relative;
+  height: 50px;
+  padding: 20px;
+  color: white;
+  z-index: 5;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+body{
+  background-color: #222;
+}
