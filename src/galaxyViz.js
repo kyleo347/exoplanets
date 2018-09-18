@@ -54,16 +54,20 @@ export default class GalaxyViz extends Component {
                 .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
         } 
 
-        let max_dist = 0
-        this.props.planets.map(pl => {if (pl.st_dist > max_dist) {max_dist = pl.st_dist} });
+        let max_dist = 0;
+        let max_st_rad = 0
+        this.props.planets.map(pl => {
+            if (pl.st_dist > max_dist) {max_dist = pl.st_dist} 
+            if (pl.st_rad > max_st_rad) {max_st_rad = pl.st_rad} 
+        });
         svg.selectAll('circle')
         .data(props.planets)
         .enter()
         .append("circle")
         .attr("id", planet => planet.pl_name)
-        .attr("r", 3)
+        .attr("r", star => star.st_rad ? (star.st_rad / max_st_rad) * 10 : 3)
         .attr("transform", "translate(0,0)")
-        .style("fill", "rgba(113, 170, 255, 1.0)")
+        .style("fill", pl => {return d3.interpolateSpectral(Math.min(pl.st_teff/10000,1))}) //"rgba(113, 170, 255, 1.0)"
         .transition()
         .duration(2000)
         .attr("transform", planet => {

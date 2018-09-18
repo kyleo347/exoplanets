@@ -15,7 +15,7 @@ export default class Galaxy extends Component {
             st_rad: null,
             pl_orbper: null,
          },
-         url: new URL('https://exoplanetarchive.ipac.caltech.edu/cgi-bin/nstedAPI/nph-nstedAPI?table=exoplanets&select=pl_name,pl_radj,st_mass,st_rad,st_dist,st_glon,st_glat,pl_masse,pl_orbsmax,pl_orbper&order=dec&format=json'),
+         url: new URL('https://exoplanetarchive.ipac.caltech.edu/cgi-bin/nstedAPI/nph-nstedAPI?table=exoplanets&select=pl_name,pl_radj,st_teff,st_mass,st_rad,st_dist,st_glon,st_glat,pl_masse,pl_orbsmax,pl_orbper&order=dec&format=json'),
      }
      this.retrievePlanets = this.retrievePlanets.bind(this);
      this.onChange = this.onChange.bind(this);
@@ -54,9 +54,8 @@ export default class Galaxy extends Component {
 
 onSubmit(evt) {
     evt.preventDefault();
-    let url = this.state.url
-    // url.searchParams.set('where', 'pl_masse' + this.state.pl_masse)
-    let paramString = ''
+    let url = this.state.url;
+    let paramString = '';
     for (const param in this.state.searchParams) {
         if (this.state.searchParams.hasOwnProperty(param) && this.state.searchParams[param]) {
             paramString += param + this.state.searchParams[param] + ' and ';
@@ -65,7 +64,7 @@ onSubmit(evt) {
 
     url.searchParams.set('where', paramString.replace(/ and $/,''));
     this.setState({ url: url });
-    this.retrievePlanets()
+    this.retrievePlanets();
 }
 
  render() {
