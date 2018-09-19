@@ -15,7 +15,7 @@ export default class Galaxy extends Component {
             st_rad: null,
             pl_orbper: null,
          },
-         url: new URL('https://exoplanetarchive.ipac.caltech.edu/cgi-bin/nstedAPI/nph-nstedAPI?table=exoplanets&select=pl_name,pl_radj,st_teff,st_mass,st_rad,st_dist,st_glon,st_glat,pl_masse,pl_orbsmax,pl_orbper&order=dec&format=json'),
+         url: new URL('https://exoplanetarchive.ipac.caltech.edu/cgi-bin/nstedAPI/nph-nstedAPI?table=exoplanets&select=pl_hostname,pl_pnum,pl_name,pl_radj,st_teff,st_mass,st_rad,st_dist,st_glon,st_glat,pl_masse,pl_orbsmax,pl_orbper&order=dec&format=json'),
      }
      this.retrievePlanets = this.retrievePlanets.bind(this);
      this.onChange = this.onChange.bind(this);
@@ -80,6 +80,13 @@ onSubmit(evt) {
                 <option value="<1000">0-1000</option>
                 <option value="<10000">0-10000</option>
             </select>
+            <label> and  Orbital Period (in Earth years):</label>
+            <select name="pl_orbper" onChange={this.onChange} >
+                <option disabled selected="selected" value="">choose</option>
+                <option value="<1">0-1</option>
+                <option value="<10">0-10</option>
+                <option value="<100">0-100</option>
+            </select>
             that have a star with 
             <label> Mass (in Solar masses):</label>
             <select name="st_mass" onChange={this.onChange} >
@@ -88,8 +95,7 @@ onSubmit(evt) {
                 <option value="<10">0-10</option>
                 <option value=">10">10+</option>
             </select>
-            and 
-            <label> radius (in Solar radii):</label>
+            <label> and  radius (in Solar radii):</label>
             <select name="st_rad" onChange={this.onChange} >
                 <option disabled selected="selected" value="">choose</option>
                 <option value="<1">0-1</option>

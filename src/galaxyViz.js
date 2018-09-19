@@ -56,6 +56,10 @@ export default class GalaxyViz extends Component {
         }
         let spacetime = d3.select('.viz'); 
         let maxRadius = Math.min(this.state.width, this.state.height);
+        // Tooltip
+        let tooltip = spacetime.append("div")	
+        .attr("class", "tooltip")				
+        .style("opacity", 0);
         // Space
         this.state.svg = spacetime.select("svg g");
         if (this.state.svg.empty()) {
@@ -81,7 +85,25 @@ export default class GalaxyViz extends Component {
         .attr("id", planet => planet.pl_name)
         .attr("r", star => star.st_rad ? (star.st_rad / max_st_rad) * 10 : 3)
         .attr("transform", "translate(0,0)")
-        .style("fill", pl => {return d3.interpolateSpectral(Math.min(pl.st_teff/10000,1))}) //"rgba(113, 170, 255, 1.0)"
+        .style("fill", pl => {return d3.interpolateSpectral(Math.min(pl.st_teff/10000,1))}) // interprate color from temp.
+        .on("mouseover", function(planet) {		// tooltip move and reveal
+            tooltip.transition()		
+                .duration(200)		
+                .style("opacity", .9);		
+            tooltip.html(
+                "Star Name: " + planet.pl_hostname + "<br/>" +
+                "Distance (parsecs): "+ planet.st_dist + "<br/>" +
+                "# of exoplanets: " + planet.pl_pnum + "<br/>" +
+                "Orbital period: " + planet.pl_orbper
+                )	
+                .style("left", (d3.event.pageX) + "px")		
+                .style("top", (d3.event.pageY - 28) + "px");	
+            })			
+        .on("mouseout", function(planet) {		// tooltip hide
+            tooltip.transition()		
+                .duration(500)		
+                .style("opacity", 0);	
+        })
         .transition()
         .duration(2000)
         .attr("transform", planet => {
